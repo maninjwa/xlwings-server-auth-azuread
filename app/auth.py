@@ -65,6 +65,13 @@ def authenticate(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=f"Couldn't validate access token",
         )
+    if settings.azuread_scope and settings.azuread_scope != claims.get("scp"):
+        msg = "Couldn't validate access token: required scope missing"
+        logger.error(msg)
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=msg,
+        )
     return User(
         object_id=claims["oid"],
         name=claims["name"],
