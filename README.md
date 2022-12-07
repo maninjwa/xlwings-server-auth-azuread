@@ -138,7 +138,7 @@ Note that this Excel file uses the *standalone* mode, i.e., comes with all the r
 
 * If you assign a new role to a user, they will have to reset the access token (or wait until it expires).
 * You can either run the following on a command prompt: ``xlwings auth azuread --reset``
-* Or call this functionality from VBA like so:
+* Or create a VBA function:
 
   ```vb.net
   Sub Reset()
