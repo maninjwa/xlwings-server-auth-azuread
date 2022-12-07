@@ -20,15 +20,19 @@ Every version of Excel is supported, it doesn't have to be Microsoft 365.
    * `Redirect URI`: Select `Public client/native (mobile & desktop)` in the dropdown and provide the following as URL: `http://localhost`
    * Then click on `Register` at the bottom
 
+* Under `Manifest` (left sidebar):
+   * Replace `"accessTokenAcceptedVersion": null` with `"accessTokenAcceptedVersion": 2`. This isn't strictly required, but will cause the Access Token to be returned in the v2 format, rather than the v1 format (default for single-tenant app). Tools like [oauth2-proxy](https://github.com/oauth2-proxy/oauth2-proxy) don't accept v1 tokens.
+   * Hit `Save` at the top
+
 * Under `Expose an API` (left sidebar):
    * Click on `Add a scope`
    * If there are no existing scopes, you need to first accept the default Application ID URI (something like `api://...`)
    * `Save and continue`
    * Then fill in the scope definition:
-      * `Scope name`: add something like `default`
+      * `Scope name`: add something like `ExcelFiles.ReadWrite`
       * `Who can consent`: `Admins and users`
-      * `Admin consent display name`: `xlwings needs access to Azure AD`
-      * `Admin consent description`: `Allow xlwings to authenticate via Azure AD`
+      * `Admin consent display name`: `Read & Write local Excel Files`
+      * `Admin consent description`: `xlwings Server needs read and write access to the local Excel files.`
       * => Use same values for User consent
       * `State`: `enabled`
       * Confirm with `Add scope`
@@ -53,7 +57,9 @@ Every version of Excel is supported, it doesn't have to be Microsoft 365.
      "AZUREAD_CLIENT_ID","xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
      "AZUREAD_SCOPES","api://xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/default"
      ```
-      
+
+     Alternatively, you can also add a sheet called `xlwings.conf` in the Excel file with these settings or provide the values as arguments to the VBA function (see below). This makes most sense if you have to deal with multiple Azure AD apps: store `AZUREAD_CLIENT_ID` and `AZUREAD_SCOPES` as part of the workbook's configuration rather than using the user's global config file.
+
 [OPTIONAL] RBAC: Role-based access control (only required for `hello3` sample)
 
 * `App roles` (left sidebar):
@@ -106,6 +112,12 @@ Note that this Excel file uses the *standalone* mode, i.e., comes with all the r
   Sub Hello1()
     RunRemotePython "http://127.0.0.1:8000/hello1", auth:="Bearer " & GetAzureAdAccessToken()
   End Sub
+  ```
+
+  Note that you can also provide the following arguments to `GetAzureAdAccessToken` as alternative to the `xlwings.conf` sheet or config file:
+
+  ```vb.net
+  GetAzureAdAccessToken(tenantId:="...", clientId:="...", port="...", scopes="...", username="...")
   ```
 
 ## xlwings.conf: optional settings
