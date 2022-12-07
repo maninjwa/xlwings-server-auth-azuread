@@ -105,7 +105,7 @@ Note that this Excel file uses the *standalone* mode, i.e., comes with all the r
 * Currently, you'll need a local Python installation with xlwings and the optional dependency `msal` (`pip install msal`)
 * Open `demo.xlsm` and click the buttons: they correspond to the endpoints under `app/api.py`.
 * The very first time you click a button, you'll need to login and accept the consent screen.
-* Access tokens are cached and remain valid for 60-75 minutes. If an access token is expired, it will be automatically renewed, which will slow down that request. Subsequent requests will then again use the cached token.
+* Access tokens are cached and remain valid for 60-90 minutes. If an access token is expired, it will be automatically renewed, which will slow down that request. Subsequent requests will then again use the cached token.
 * The demo file uses the following code to call an endpoint with the token in the `Authorization` header:
 
   ```vb.net
@@ -117,7 +117,7 @@ Note that this Excel file uses the *standalone* mode, i.e., comes with all the r
   Note that you can also provide the following arguments to `GetAzureAdAccessToken` as alternative to the `xlwings.conf` sheet or config file:
 
   ```vb.net
-  GetAzureAdAccessToken(tenantId:="...", clientId:="...", port="...", scopes="...", username="...")
+  GetAzureAdAccessToken(tenantId:="...", clientId:="...", port:="...", scopes:="...", username:="...")
   ```
 
 ## xlwings.conf: optional settings
