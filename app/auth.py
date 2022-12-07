@@ -32,9 +32,9 @@ def authenticate(
         parts = access_token.split()
         if len(parts) != 2:
             raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Missing Access Token",
-        )
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail=f"Missing Access Token",
+            )
         access_token = parts[1]
     jwks_client = jwt.PyJWKClient(jwks_uri)  # TODO: make async
     key = jwks_client.get_signing_key_from_jwt(access_token)
@@ -71,7 +71,9 @@ def authenticate(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=f"Couldn't validate access token",
         )
-    if settings.azuread_scopes and not set(claims.get("scp").split(",")).issubset(settings.azuread_scopes):
+    if settings.azuread_scopes and not set(claims.get("scp").split(",")).issubset(
+        settings.azuread_scopes
+    ):
         msg = "Couldn't validate access token: required Azure AD scope missing"
         logger.error(msg)
         raise HTTPException(
