@@ -3,7 +3,6 @@ FROM python:3.11-slim
 # Makes sure that logs are shown immediately
 ENV PYTHONUNBUFFERED=1
 
-COPY ./xlwings-0.0.0+2f7a8e5.tar.gz .
 COPY ./requirements.txt .
 
 # Watchfiles from uvicorn[standard] breaks reload inside Docker

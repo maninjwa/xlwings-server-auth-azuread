@@ -19,4 +19,4 @@ typing_extensions==4.4.0
 uvicorn==0.20.0
 uvloop==0.17.0
 websockets==10.4
-xlwings @ file:///xlwings-0.0.0%2B2f7a8e5.tar.gz
+xlwings==0.28.6
