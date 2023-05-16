@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Don't expose the docs publicly
-app = FastAPI(docs_url=None, redoc_url=None)
+app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 
 # Routers
 app.include_router(api.router)
